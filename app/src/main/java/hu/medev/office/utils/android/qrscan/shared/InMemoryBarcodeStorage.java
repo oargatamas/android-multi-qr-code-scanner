@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class InMemoryBarcodeStorage implements BarcodeStorage{
 
-    private Set<String> storage;
+    private final Set<String> storage;
 
     public InMemoryBarcodeStorage() {
         this.storage = new HashSet<>();
