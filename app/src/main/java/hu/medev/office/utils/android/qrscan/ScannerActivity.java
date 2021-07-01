@@ -12,10 +12,18 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import hu.medev.office.utils.android.R;
 import hu.medev.office.utils.android.databinding.ActivityScannerBinding;
+import hu.medev.office.utils.android.qrscan.shared.BarcodeStorage;
+import hu.medev.office.utils.android.qrscan.shared.InMemoryBarcodeStorage;
 
 public class  ScannerActivity extends AppCompatActivity {
 
     private ActivityScannerBinding binding;
+
+    private final BarcodeStorage barcodeStorage = new InMemoryBarcodeStorage();
+
+    public BarcodeStorage getBarcodeStorage() {
+        return barcodeStorage;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

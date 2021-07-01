@@ -8,13 +8,13 @@
 
     <fragment
         android:id="@+id/navigation_camera_scanner"
-        android:name="hu.medev.office.utils.android.qrscan.bottom_navigation.ui.camera.CameraScannerFragment"
+        android:name="hu.medev.office.utils.android.qrscan.ui.camera.CameraScannerFragment"
         android:label="@string/title_camera_scanner"
         tools:layout="@layout/fragment_camera_scanner" />
 
     <fragment
         android:id="@+id/navigation_scanned_barcodes_list"
-        android:name="hu.medev.office.utils.android.qrscan.bottom_navigation.ui.scanlist.ScanListFragment"
+        android:name="hu.medev.office.utils.android.qrscan.ui.scanlist.ScanListFragment"
         android:label="@string/title_scanned_barcodes_list"
         tools:layout="@layout/fragment_scan_list" />
 </navigation>
