@@ -15,17 +15,23 @@ import com.google.android.material.snackbar.Snackbar;
 
 import hu.medev.office.utils.android.R;
 import hu.medev.office.utils.android.databinding.ActivityMainBinding;
+import hu.medev.office.utils.android.qrscan.shared.BarcodeStorage;
+import hu.medev.office.utils.android.qrscan.shared.InMemoryBarcodeStorage;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
+    private final BarcodeStorage barcodeStorage = new InMemoryBarcodeStorage();
+
+    public BarcodeStorage getBarcodeStorage() {
+        return barcodeStorage;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        hu.medev.office.utils.android.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
