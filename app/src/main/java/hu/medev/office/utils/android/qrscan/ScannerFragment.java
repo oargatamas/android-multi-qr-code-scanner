@@ -81,7 +81,8 @@ public class ScannerFragment extends Fragment {
 
         cameraSource = new CameraSource.Builder(requireActivity(), barcodeDetector)
                 .setRequestedPreviewSize(1920, 1080)
-                .setAutoFocusEnabled(true) //you should add this feature
+                .setFacing(CameraSource.CAMERA_FACING_BACK)
+                .setAutoFocusEnabled(true)
                 .build();
 
         cameraSurface.getHolder().addCallback(initialiseSurfaceHolderCallback());
