@@ -1,4 +1,4 @@
-package hu.medev.office.utils.android;
+package hu.medev.office.utils.android.qrscan;
 
 import android.os.Bundle;
 
@@ -13,6 +13,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import hu.medev.office.utils.android.R;
 import hu.medev.office.utils.android.databinding.ActivityMainBinding;
 
 import android.view.Menu;

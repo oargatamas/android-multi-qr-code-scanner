@@ -1,4 +1,4 @@
-package hu.medev.office.utils.android;
+package hu.medev.office.utils.android.qrscan;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import hu.medev.office.utils.android.R;
 import hu.medev.office.utils.android.databinding.FragmentFirstBinding;
 
 public class FirstFragment extends Fragment {
