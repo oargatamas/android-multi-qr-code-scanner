@@ -1,4 +1,4 @@
-package hu.medev.office.utils.android.qrscan.bottom_navigation;
+package hu.medev.office.utils.android.qrscan;
 
 import android.os.Bundle;
 
@@ -13,7 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import hu.medev.office.utils.android.R;
 import hu.medev.office.utils.android.databinding.ActivityScannerBinding;
 
-public class ScannerActivity extends AppCompatActivity {
+public class  ScannerActivity extends AppCompatActivity {
 
     private ActivityScannerBinding binding;
 

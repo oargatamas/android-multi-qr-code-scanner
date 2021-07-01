@@ -1,4 +1,4 @@
-package hu.medev.office.utils.android.qrscan.bottom_navigation.ui.camera;
+package hu.medev.office.utils.android.qrscan.ui.scanlist;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,19 +9,19 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import hu.medev.office.utils.android.databinding.FragmentCameraScannerBinding;
+import hu.medev.office.utils.android.databinding.FragmentScanListBinding;
 
-public class CameraScannerFragment extends Fragment {
+public class ScanListFragment extends Fragment {
 
-    private CameraScannerViewModel dashboardViewModel;
-    private FragmentCameraScannerBinding binding;
+    private ScanListViewModel notificationsViewModel;
+    private FragmentScanListBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                new ViewModelProvider(this).get(CameraScannerViewModel.class);
+        notificationsViewModel =
+                new ViewModelProvider(this).get(ScanListViewModel.class);
 
-        binding = FragmentCameraScannerBinding.inflate(inflater, container, false);
+        binding = FragmentScanListBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
 

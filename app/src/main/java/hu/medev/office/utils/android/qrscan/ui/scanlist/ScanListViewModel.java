@@ -1,4 +1,4 @@
-package hu.medev.office.utils.android.qrscan.bottom_navigation.ui.scanlist;
+package hu.medev.office.utils.android.qrscan.ui.scanlist;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

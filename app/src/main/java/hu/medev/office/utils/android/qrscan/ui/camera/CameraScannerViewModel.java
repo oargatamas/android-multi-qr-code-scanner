@@ -1,4 +1,4 @@
-package hu.medev.office.utils.android.qrscan.bottom_navigation.ui.camera;
+package hu.medev.office.utils.android.qrscan.ui.camera;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
