@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/navigation_camera_scanner"
+        android:icon="@drawable/ic_baseline_qr_code_scanner_24"
+        android:title="@string/title_camera_scanner" />
+
+    <item
+        android:id="@+id/navigation_scanned_barcodes_list"
+        android:icon="@drawable/ic_baseline_list_24"
+        android:title="@string/title_scanned_barcodes_list" />
+
+</menu>
