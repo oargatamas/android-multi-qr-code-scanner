@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="hu.medev.office.utils.android.FirstFragment"
+        android:name="hu.medev.office.utils.android.qrscan.FirstFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_FirstFragment_to_ScannerFragment"
+            app:destination="@id/ScannerFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="hu.medev.office.utils.android.SecondFragment"
+        android:id="@+id/ScannerFragment"
+        android:name="hu.medev.office.utils.android.qrscan.ScannerFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/scanner_fragment">
 
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
+            android:id="@+id/action_ScannerFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>
