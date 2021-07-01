@@ -1,7 +1,6 @@
 package hu.medev.office.utils.android.qrscan;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,7 +28,7 @@ import hu.medev.office.utils.android.databinding.FragmentCameraScannerBinding;
 public class ScannerFragment extends Fragment {
     private static final String TAG = "ScannerFragment";
 
-    private Context context;
+    private MainActivity activity;
 
     private FragmentCameraScannerBinding binding;
     private SurfaceView cameraSurface;
@@ -61,7 +60,7 @@ public class ScannerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        context = getContext();
+        activity = (MainActivity) getActivity();
         initialiseDetectorsAndSources();
     }
 
@@ -74,7 +73,7 @@ public class ScannerFragment extends Fragment {
 
     private void initialiseDetectorsAndSources() {
 
-        Toast.makeText(context, "Barcode scanner started", Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, "Barcode scanner started", Toast.LENGTH_SHORT).show();
 
         BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(requireActivity())
                 .setBarcodeFormats(Barcode.ALL_FORMATS)
@@ -104,8 +103,9 @@ public class ScannerFragment extends Fragment {
             public void receiveDetections(Detector.Detections<Barcode> detections) {
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
                 if (barcodes.size() != 0) {
-                    Log.d(TAG,barcodes.valueAt(0).displayValue);
-                    requireActivity().runOnUiThread(() -> Toast.makeText(context, barcodes.valueAt(0).displayValue, Toast.LENGTH_SHORT).show());
+                    String barcode = barcodes.valueAt(0).displayValue;
+                    Log.d(TAG, String.format("Adding value to storage : %s", barcode));
+                    activity.getBarcodeStorage().addBarcode(barcode);
                 }
             }
         };
