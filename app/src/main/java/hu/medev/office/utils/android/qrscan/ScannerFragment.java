@@ -1,6 +1,7 @@
 package hu.medev.office.utils.android.qrscan;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
@@ -28,6 +30,8 @@ import hu.medev.office.utils.android.databinding.ScannerFragmentBinding;
 
 public class ScannerFragment extends Fragment {
     private static final String TAG = "ScannerFragment";
+
+    private Context context;
 
     private ScannerFragmentBinding binding;
     private SurfaceView cameraSurface;
@@ -59,6 +63,7 @@ public class ScannerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        context = getContext();
         initialiseDetectorsAndSources();
     }
 
@@ -71,7 +76,7 @@ public class ScannerFragment extends Fragment {
 
     private void initialiseDetectorsAndSources() {
 
-        Toast.makeText(requireActivity(), "Barcode scanner started", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Barcode scanner started", Toast.LENGTH_SHORT).show();
 
         BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(requireActivity())
                 .setBarcodeFormats(Barcode.ALL_FORMATS)
@@ -93,14 +98,16 @@ public class ScannerFragment extends Fragment {
         return new Detector.Processor<Barcode>() {
             @Override
             public void release() {
-                Toast.makeText(requireActivity(), "To prevent memory leaks barcode scanner has been stopped", Toast.LENGTH_SHORT).show();
+                requireActivity().runOnUiThread(() -> Toast.makeText(getActivity(), "To prevent memory leaks barcode scanner has been stopped", Toast.LENGTH_SHORT).show());
+
             }
 
             @Override
             public void receiveDetections(Detector.Detections<Barcode> detections) {
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
                 if (barcodes.size() != 0) {
-                    //Todo read out and collect detected QR codes.
+                    Log.d(TAG,barcodes.valueAt(0).displayValue);
+                    requireActivity().runOnUiThread(() -> Toast.makeText(context, barcodes.valueAt(0).displayValue, Toast.LENGTH_SHORT).show());
                 }
             }
         };
