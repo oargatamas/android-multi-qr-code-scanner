@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
@@ -28,7 +27,6 @@ import hu.medev.office.utils.android.qrscan.ScannerActivity;
 
 public class CameraScannerFragment extends Fragment {
 
-    private CameraScannerViewModel cameraScannerViewModel;
     private static final String TAG = "ScannerFragment";
 
     private ScannerActivity activity;
@@ -40,7 +38,6 @@ public class CameraScannerFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        cameraScannerViewModel = new ViewModelProvider(this).get(CameraScannerViewModel.class);
 
         binding = FragmentCameraScannerBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
