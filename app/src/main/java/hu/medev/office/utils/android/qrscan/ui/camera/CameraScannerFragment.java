@@ -10,7 +10,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -73,8 +72,6 @@ public class CameraScannerFragment extends Fragment {
 
     private void initialiseDetectorsAndSources() {
 
-        Toast.makeText(activity, "Barcode scanner started", Toast.LENGTH_SHORT).show();
-
         BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(requireActivity())
                 .setBarcodeFormats(Barcode.ALL_FORMATS)
                 .build();
@@ -95,8 +92,7 @@ public class CameraScannerFragment extends Fragment {
         return new Detector.Processor<Barcode>() {
             @Override
             public void release() {
-                requireActivity().runOnUiThread(() -> Toast.makeText(getActivity(), "To prevent memory leaks barcode scanner has been stopped", Toast.LENGTH_SHORT).show());
-
+                Log.i(TAG,"To prevent memory leaks barcode scanner has been stopped");
             }
 
             @Override
