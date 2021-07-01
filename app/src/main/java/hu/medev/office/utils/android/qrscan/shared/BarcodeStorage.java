@@ -1,10 +1,12 @@
 package hu.medev.office.utils.android.qrscan.shared;
 
-import java.util.Set;
+import java.util.Collection;
 
 public interface BarcodeStorage {
 
-    Set<String> getScannedBarcodes();
+    Collection<String> getScannedBarcodes();
+
+    String getBarcodeAt(int barcodeIndex);
 
     void addBarcode(String barcodeValue);
 
