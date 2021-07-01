@@ -24,14 +24,14 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 
-import hu.medev.office.utils.android.databinding.ScannerFragmentBinding;
+import hu.medev.office.utils.android.databinding.FragmentCameraScannerBinding;
 
 public class ScannerFragment extends Fragment {
     private static final String TAG = "ScannerFragment";
 
     private Context context;
 
-    private ScannerFragmentBinding binding;
+    private FragmentCameraScannerBinding binding;
     private SurfaceView cameraSurface;
     private CameraSource cameraSource;
 
@@ -41,7 +41,7 @@ public class ScannerFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-        binding = ScannerFragmentBinding.inflate(inflater, container, false);
+        binding = FragmentCameraScannerBinding.inflate(inflater, container, false);
         cameraSurface = binding.CameraSurface;
         return binding.getRoot();
 

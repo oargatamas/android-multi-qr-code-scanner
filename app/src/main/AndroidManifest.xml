@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Androidmultiqrcodescanner">
         <activity
-            android:name=".qrscan.bottom_navigation.MainActivity"
+            android:name=".qrscan.bottom_navigation.ScannerActivity"
             android:label="@string/title_activity_main">
 
             <intent-filter>
