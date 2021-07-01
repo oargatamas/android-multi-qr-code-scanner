@@ -9,12 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import java.util.Scanner;
+
 import hu.medev.office.utils.android.R;
-import hu.medev.office.utils.android.databinding.FragmentSecondBinding;
+import hu.medev.office.utils.android.databinding.ScannerFragmentBinding;
 
 public class ScannerFragment extends Fragment {
 
-    private FragmentSecondBinding binding;
+    private ScannerFragmentBinding binding;
 
     @Override
     public View onCreateView(
@@ -22,7 +24,7 @@ public class ScannerFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = FragmentSecondBinding.inflate(inflater, container, false);
+        binding = ScannerFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
@@ -30,13 +32,6 @@ public class ScannerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(ScannerFragment.this)
-                        .navigate(R.id.action_SecondFragment_to_FirstFragment);
-            }
-        });
     }
 
     @Override
