@@ -1,7 +1,6 @@
-package hu.medev.office.utils.android.qrscan;
+package hu.medev.office.utils.android.qrscan.ui.camera;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +10,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -24,32 +22,29 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 
-import hu.medev.office.utils.android.databinding.ScannerFragmentBinding;
+import hu.medev.office.utils.android.databinding.FragmentCameraScannerBinding;
+import hu.medev.office.utils.android.qrscan.ScannerActivity;
 
-public class ScannerFragment extends Fragment {
+public class CameraScannerFragment extends Fragment {
+
     private static final String TAG = "ScannerFragment";
 
-    private Context context;
+    private ScannerActivity activity;
 
-    private ScannerFragmentBinding binding;
+    private FragmentCameraScannerBinding binding;
     private SurfaceView cameraSurface;
     private CameraSource cameraSource;
 
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
 
-    @Override
-    public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
-        binding = ScannerFragmentBinding.inflate(inflater, container, false);
+
+        binding = FragmentCameraScannerBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+
         cameraSurface = binding.CameraSurface;
-        return binding.getRoot();
 
-    }
-
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
+        return root;
     }
 
     @Override
@@ -61,7 +56,7 @@ public class ScannerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        context = getContext();
+        activity = (ScannerActivity) getActivity();
         initialiseDetectorsAndSources();
     }
 
@@ -73,8 +68,6 @@ public class ScannerFragment extends Fragment {
 
 
     private void initialiseDetectorsAndSources() {
-
-        Toast.makeText(context, "Barcode scanner started", Toast.LENGTH_SHORT).show();
 
         BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(requireActivity())
                 .setBarcodeFormats(Barcode.ALL_FORMATS)
@@ -96,16 +89,16 @@ public class ScannerFragment extends Fragment {
         return new Detector.Processor<Barcode>() {
             @Override
             public void release() {
-                requireActivity().runOnUiThread(() -> Toast.makeText(getActivity(), "To prevent memory leaks barcode scanner has been stopped", Toast.LENGTH_SHORT).show());
-
+                Log.i(TAG,"To prevent memory leaks barcode scanner has been stopped");
             }
 
             @Override
             public void receiveDetections(Detector.Detections<Barcode> detections) {
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
                 if (barcodes.size() != 0) {
-                    Log.d(TAG,barcodes.valueAt(0).displayValue);
-                    requireActivity().runOnUiThread(() -> Toast.makeText(context, barcodes.valueAt(0).displayValue, Toast.LENGTH_SHORT).show());
+                    String barcode = barcodes.valueAt(0).displayValue;
+                    Log.d(TAG, String.format("Adding value to storage : %s", barcode));
+                    activity.getBarcodeStorage().addBarcode(barcode);
                 }
             }
         };
