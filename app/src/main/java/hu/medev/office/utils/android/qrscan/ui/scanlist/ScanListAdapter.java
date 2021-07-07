@@ -17,23 +17,30 @@ import hu.medev.office.utils.android.R;
 
 public class ScanListAdapter extends RecyclerView.Adapter<ScanListAdapter.ViewHolder> {
 
+
     List<String> items;
 
     public ScanListAdapter(Collection<String> items) {
         this.items = new ArrayList<>(items);
     }
 
+
+    public List<String> getItems() {
+        return items;
+    }
+
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.scan_list_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.scan_list_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String barcode = items.get(position);
-        holder.index.setText(MessageFormat.format("#{0}", (position+1)));
+        holder.index.setText(MessageFormat.format("#{0}", (position + 1)));
         holder.scannedBarCode.setText(barcode);
     }
 
@@ -42,9 +49,20 @@ public class ScanListAdapter extends RecyclerView.Adapter<ScanListAdapter.ViewHo
         return items.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public void removeItem(int position) {
+        items.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void restoreItem(String item, int position) {
+        items.add(position, item);
+        notifyItemInserted(position);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView index;
         TextView scannedBarCode;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             index = itemView.findViewById(R.id.tvIndex);
