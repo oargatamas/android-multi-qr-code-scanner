@@ -1,0 +1,50 @@
+package hu.medev.office.utils.android.qrscan.ui.scanlist;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import hu.medev.office.utils.android.R;
+
+public class ScanListAdapter extends RecyclerView.Adapter<ScanListAdapter.ViewHolder> {
+
+    List<String> items;
+
+    public ScanListAdapter(Collection<String> items) {
+        this.items = new ArrayList<>(items);
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.scan_list_item,parent,false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        String barcode = items.get(position);
+        holder.scannedBarCode.setText(barcode);
+    }
+
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
+        TextView scannedBarCode;
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            scannedBarCode = itemView.findViewById(R.id.tvBarCodeText);
+        }
+    }
+}

@@ -9,12 +9,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import hu.medev.office.utils.android.databinding.FragmentScanListBinding;
 import hu.medev.office.utils.android.qrscan.ScannerActivity;
+import hu.medev.office.utils.android.qrscan.shared.BarcodeStorage;
 
 public class ScanListFragment extends Fragment {
 
+    private ScannerActivity activity;
+    private BarcodeStorage barcodeStorage;
     private FragmentScanListBinding binding;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -24,11 +29,13 @@ public class ScanListFragment extends Fragment {
         binding = FragmentScanListBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        ScannerActivity activity = (ScannerActivity) requireActivity();
+        activity = (ScannerActivity) requireActivity();
+        barcodeStorage = activity.getBarcodeStorage();
 
-        String codeList = activity.getBarcodeStorage().getScannedBarcodes().stream().reduce("",(str1,str2) -> str1 + "\n\n\n" + str2);
+        RecyclerView barCodeList = binding.rvBarCodeList;
 
-        binding.textNotifications.setText(codeList);
+        barCodeList.setLayoutManager(new LinearLayoutManager(activity));
+        barCodeList.setAdapter(new ScanListAdapter(barcodeStorage.getScannedBarcodes()));
 
         return root;
     }
