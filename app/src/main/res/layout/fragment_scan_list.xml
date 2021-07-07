@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".qrscan.bottom_navigation.ui.scanlist.ScanListFragment">
+    tools:context=".qrscan.ui.scanlist.ScanListFragment">
 
     <TextView
         android:id="@+id/text_notifications"
