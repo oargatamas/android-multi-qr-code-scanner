@@ -13,6 +13,7 @@ import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 
 import hu.medev.office.utils.android.databinding.FragmentCameraScannerBinding;
+import hu.medev.office.utils.android.qrscan.ScannerActivity;
 
 public class CameraScannerFragment extends Fragment {
 
@@ -31,10 +32,13 @@ public class CameraScannerFragment extends Fragment {
         View root = binding.getRoot();
 
 
+        ScannerActivity activity = (ScannerActivity) requireActivity();
+
         CodeScannerView scannerView = binding.scannerView;
         mCodeScanner = new CodeScanner(requireContext(), scannerView);
         mCodeScanner.setDecodeCallback(result -> {
-            requireActivity().runOnUiThread(() -> Toast.makeText(requireActivity(), result.getText(), Toast.LENGTH_SHORT).show());
+            activity.runOnUiThread(() -> Toast.makeText(requireActivity(), result.getText(), Toast.LENGTH_SHORT).show());
+            activity.getBarcodeStorage().addBarcode(result.getText());
         });
         scannerView.setOnClickListener(view -> mCodeScanner.startPreview());
 
