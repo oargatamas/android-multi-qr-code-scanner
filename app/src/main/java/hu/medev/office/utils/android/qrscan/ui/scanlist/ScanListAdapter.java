@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -32,6 +33,7 @@ public class ScanListAdapter extends RecyclerView.Adapter<ScanListAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String barcode = items.get(position);
+        holder.index.setText(MessageFormat.format("#{0}", (position+1)));
         holder.scannedBarCode.setText(barcode);
     }
 
@@ -41,9 +43,11 @@ public class ScanListAdapter extends RecyclerView.Adapter<ScanListAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
+        TextView index;
         TextView scannedBarCode;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            index = itemView.findViewById(R.id.tvIndex);
             scannedBarCode = itemView.findViewById(R.id.tvBarCodeText);
         }
     }
