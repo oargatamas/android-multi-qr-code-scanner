@@ -1,63 +1,50 @@
 package hu.medev.office.utils.android.qrscan.ui.camera;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.vision.CameraSource;
-import com.google.android.gms.vision.Detector;
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
-
-import java.io.IOException;
+import com.budiyev.android.codescanner.CodeScanner;
+import com.budiyev.android.codescanner.CodeScannerView;
 
 import hu.medev.office.utils.android.databinding.FragmentCameraScannerBinding;
-import hu.medev.office.utils.android.qrscan.ScannerActivity;
 
 public class CameraScannerFragment extends Fragment {
 
     private static final String TAG = "ScannerFragment";
 
-    private ScannerActivity activity;
+
+    private CodeScanner mCodeScanner;
 
     private FragmentCameraScannerBinding binding;
-    private SurfaceView cameraSurface;
-    private CameraSource cameraSource;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-
         binding = FragmentCameraScannerBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        cameraSurface = binding.CameraSurface;
+
+        CodeScannerView scannerView = binding.scannerView;
+        mCodeScanner = new CodeScanner(requireContext(), scannerView);
+        mCodeScanner.setDecodeCallback(result -> {
+            requireActivity().runOnUiThread(() -> Toast.makeText(requireActivity(), result.getText(), Toast.LENGTH_SHORT).show());
+        });
+        scannerView.setOnClickListener(view -> mCodeScanner.startPreview());
 
         return root;
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        cameraSource.release();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        activity = (ScannerActivity) getActivity();
-        initialiseDetectorsAndSources();
+        mCodeScanner.startPreview();
     }
 
     @Override
@@ -67,68 +54,4 @@ public class CameraScannerFragment extends Fragment {
     }
 
 
-    private void initialiseDetectorsAndSources() {
-
-        BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(requireActivity())
-                .setBarcodeFormats(Barcode.ALL_FORMATS)
-                .build();
-
-        barcodeDetector.setProcessor(initialiseBarcodeProcessor());
-
-        cameraSource = new CameraSource.Builder(requireActivity(), barcodeDetector)
-                .setRequestedPreviewSize(1920, 1080)
-                .setFacing(CameraSource.CAMERA_FACING_BACK)
-                .setAutoFocusEnabled(true)
-                .build();
-
-        cameraSurface.getHolder().addCallback(initialiseSurfaceHolderCallback());
-
-    }
-
-    private Detector.Processor<Barcode> initialiseBarcodeProcessor() {
-        return new Detector.Processor<Barcode>() {
-            @Override
-            public void release() {
-                Log.i(TAG,"To prevent memory leaks barcode scanner has been stopped");
-            }
-
-            @Override
-            public void receiveDetections(Detector.Detections<Barcode> detections) {
-                final SparseArray<Barcode> barcodes = detections.getDetectedItems();
-                if (barcodes.size() != 0) {
-                    String barcode = barcodes.valueAt(0).displayValue;
-                    Log.d(TAG, String.format("Adding value to storage : %s", barcode));
-                    activity.getBarcodeStorage().addBarcode(barcode);
-                }
-            }
-        };
-    }
-
-    private SurfaceHolder.Callback initialiseSurfaceHolderCallback() {
-        return new SurfaceHolder.Callback() {
-            @Override
-            public void surfaceCreated(SurfaceHolder holder) {
-                try {
-                    if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                        cameraSource.start(cameraSurface.getHolder());
-                    } else {
-                        ActivityCompat.requestPermissions(requireActivity(), new
-                                String[]{Manifest.permission.CAMERA}, 201);
-                    }
-
-                } catch (IOException e) {
-                    Log.e(TAG, e.getMessage(), e);
-                }
-            }
-
-            @Override
-            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            }
-
-            @Override
-            public void surfaceDestroyed(SurfaceHolder holder) {
-                cameraSource.stop();
-            }
-        };
-    }
 }
