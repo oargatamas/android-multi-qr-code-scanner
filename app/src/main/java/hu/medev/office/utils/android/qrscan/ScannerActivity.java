@@ -8,18 +8,21 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.Collection;
 
 import hu.medev.office.utils.android.R;
 import hu.medev.office.utils.android.databinding.ActivityScannerBinding;
+import hu.medev.office.utils.android.qrscan.shared.BarcodeScanListener;
 import hu.medev.office.utils.android.qrscan.shared.BarcodeStorage;
 import hu.medev.office.utils.android.qrscan.shared.InMemoryBarcodeStorage;
 
 public class  ScannerActivity extends AppCompatActivity {
 
     private ActivityScannerBinding binding;
-
-    private final BarcodeStorage barcodeStorage = new InMemoryBarcodeStorage();
+    private BarcodeStorage barcodeStorage;
 
     public BarcodeStorage getBarcodeStorage() {
         return barcodeStorage;
@@ -32,15 +35,42 @@ public class  ScannerActivity extends AppCompatActivity {
         binding = ActivityScannerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_camera_scanner, R.id.navigation_scanned_barcodes_list)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_scanner);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        barcodeStorage = new InMemoryBarcodeStorage();
+        barcodeStorage.addScanListener(getBarcodeListener());
+    }
+
+    private BarcodeScanListener getBarcodeListener(){
+        return new BarcodeScanListener() {
+            @Override
+            public void onBarcodeScanned(String barcodeValue) {
+                updateBadges();
+            }
+
+            @Override
+            public void onBarcodeRemoved(String barcodeValue) {
+                updateBadges();
+            }
+        };
+    }
+
+    private void updateBadges(){
+        BottomNavigationView navView = binding.navView;
+        Collection<String> scannedBarcodes = barcodeStorage.getScannedBarcodes();
+
+        BadgeDrawable scanBadge = navView.getOrCreateBadge(R.id.navigation_scanned_barcodes_list);
+        scanBadge.setNumber(scannedBarcodes.size());
+        scanBadge.setVisible(scannedBarcodes.size() > 0);
     }
 
 }

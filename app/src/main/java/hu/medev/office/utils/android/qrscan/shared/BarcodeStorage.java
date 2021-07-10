@@ -9,4 +9,8 @@ public interface BarcodeStorage {
     void addBarcode(String barcodeValue);
 
     void removeBarcode(String barcodeValue);
+
+    void addScanListener(BarcodeScanListener listener);
+
+    void removeScanListener(BarcodeScanListener listener);
 }
