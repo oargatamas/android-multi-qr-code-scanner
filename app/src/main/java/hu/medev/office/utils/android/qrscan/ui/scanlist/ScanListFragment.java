@@ -23,8 +23,6 @@ import hu.medev.office.utils.android.qrscan.ui.utils.SwipeToDeleteCallback;
 
 public class ScanListFragment extends Fragment {
 
-    private ScannerActivity activity;
-    private BarcodeStorage barcodeStorage;
     private FragmentScanListBinding binding;
     private RecyclerView scanList;
     private ScanListAdapter adapter;
@@ -37,8 +35,8 @@ public class ScanListFragment extends Fragment {
         binding = FragmentScanListBinding.inflate(inflater, container, false);
         rootView = binding.getRoot();
 
-        activity = (ScannerActivity) requireActivity();
-        barcodeStorage = activity.getBarcodeStorage();
+        ScannerActivity activity = (ScannerActivity) requireActivity();
+        BarcodeStorage barcodeStorage = activity.getBarcodeStorage();
 
         scanList = binding.rvBarCodeList;
 

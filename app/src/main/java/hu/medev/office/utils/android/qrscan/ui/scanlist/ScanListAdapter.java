@@ -21,7 +21,7 @@ public class ScanListAdapter extends RecyclerView.Adapter<ScanListAdapter.ViewHo
     List<String> items;
 
     public ScanListAdapter(BarcodeStorage barcodeStorage) {
-        this.items = new ArrayList<>(barcodeStorage.getScannedBarcodes());
+        this.items = new ArrayList<>(barcodeStorage.getCurrentScan().getBarCodes());
         this.barcodeStorage = barcodeStorage;
     }
 

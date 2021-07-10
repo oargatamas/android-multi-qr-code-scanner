@@ -1,41 +1,99 @@
 package hu.medev.office.utils.android.qrscan.shared;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-public class InMemoryBarcodeStorage implements BarcodeStorage{
+import hu.medev.office.utils.android.qrscan.shared.data.BarcodeScan;
 
-    private final Set<String> storage;
+public class InMemoryBarcodeStorage implements BarcodeStorage {
+
+    private static InMemoryBarcodeStorage instance;
+
+    private final Collection<BarcodeScan> storage;
     private final List<BarcodeScanListener> listeners;
+    private BarcodeScan selectedScan;
+    private int counter;
 
-    public InMemoryBarcodeStorage() {
-        this.storage = new HashSet<>();
+    public static BarcodeStorage getInstance(){
+        if(instance == null){
+            return new InMemoryBarcodeStorage();
+        }
+        return instance;
+    }
+
+    protected InMemoryBarcodeStorage() {
+        this.storage = new ArrayList<>();
         this.listeners = new ArrayList<>();
+        this.counter = 0;
+    }
+
+    @Override
+    public BarcodeScan getCurrentScan() {
+        return selectedScan;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public BarcodeScan getNewScan() {
+        BarcodeScan scan = new BarcodeScan();
+
+        scan.setId("Scan #" + counter);
+        scan.setScanDate(LocalDateTime.now());
+        scan.setNumberOfItems(0);
+        scan.setBarCodes(new HashSet<>());
+
+        counter++;
+
+        storage.add(scan);
+        selectedScan = scan;
+
+        return scan;
     }
 
 
     @Override
-    public Collection<String> getScannedBarcodes() {
-        return storage;
+    public BarcodeScan getScan(String identifier) {
+        for (BarcodeScan item: storage) {
+            if(item.getId().equals(identifier)){
+                selectedScan = item;
+                return item;
+            }
+        }
+        selectedScan = null;
+        return null;
     }
 
     @Override
-    public void addBarcode(String barcodeValue) {
-        storage.add(barcodeValue);
-        for (BarcodeScanListener listener: listeners) {
-            listener.onBarcodeScanned(barcodeValue);
+    public void addBarcode(BarcodeScan toScan, String barCode) {
+        toScan.getBarCodes().add(barCode);
+        for (BarcodeScanListener listener : listeners) {
+            listener.onBarcodeScanned(toScan, barCode);
         }
     }
 
     @Override
-    public void removeBarcode(String barcodeValue) {
-        storage.remove(barcodeValue);
-        for (BarcodeScanListener listener: listeners) {
-            listener.onBarcodeRemoved(barcodeValue);
+    public void addBarcode(String barCode) {
+        addBarcode(getCurrentScan(), barCode);
+    }
+
+    @Override
+    public void removeBarcode(BarcodeScan fromScan, String barCode) {
+        fromScan.getBarCodes().remove(barCode);
+        for (BarcodeScanListener listener : listeners) {
+            listener.onBarcodeRemoved(fromScan, barCode);
         }
+    }
+
+    @Override
+    public void removeBarcode(String barCode) {
+        removeBarcode(getCurrentScan(),barCode);
     }
 
     @Override

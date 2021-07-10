@@ -1,20 +1,21 @@
 package hu.medev.office.utils.android.qrscan.shared.data;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 public class BarcodeScan {
-    private String scanTitle;
+    private String id;
     private int numberOfItems;
     private LocalDateTime scanDate;
-    private List<String> barCodes;
+    private Set<String> barCodes;
 
-    public String getScanTitle() {
-        return scanTitle;
+
+    public String getId() {
+        return id;
     }
 
-    public void setScanTitle(String scanTitle) {
-        this.scanTitle = scanTitle;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public int getNumberOfItems() {
@@ -33,11 +34,11 @@ public class BarcodeScan {
         this.scanDate = scanDate;
     }
 
-    public List<String> getBarCodes() {
+    public Set<String> getBarCodes() {
         return barCodes;
     }
 
-    public void setBarCodes(List<String> barCodes) {
+    public void setBarCodes(Set<String> barCodes) {
         this.barCodes = barCodes;
     }
 }

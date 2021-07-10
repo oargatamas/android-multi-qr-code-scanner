@@ -18,6 +18,7 @@ import hu.medev.office.utils.android.databinding.ActivityScannerBinding;
 import hu.medev.office.utils.android.qrscan.shared.BarcodeScanListener;
 import hu.medev.office.utils.android.qrscan.shared.BarcodeStorage;
 import hu.medev.office.utils.android.qrscan.shared.InMemoryBarcodeStorage;
+import hu.medev.office.utils.android.qrscan.shared.data.BarcodeScan;
 
 public class  ScannerActivity extends AppCompatActivity {
 
@@ -46,19 +47,20 @@ public class  ScannerActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        barcodeStorage = new InMemoryBarcodeStorage();
+        barcodeStorage = InMemoryBarcodeStorage.getInstance();
         barcodeStorage.addScanListener(getBarcodeListener());
     }
 
     private BarcodeScanListener getBarcodeListener(){
         return new BarcodeScanListener() {
+
             @Override
-            public void onBarcodeScanned(String barcodeValue) {
+            public void onBarcodeScanned(BarcodeScan scan, String value) {
                 updateBadges();
             }
 
             @Override
-            public void onBarcodeRemoved(String barcodeValue) {
+            public void onBarcodeRemoved(BarcodeScan scan, String barcodeValue) {
                 updateBadges();
             }
         };
@@ -66,7 +68,7 @@ public class  ScannerActivity extends AppCompatActivity {
 
     private void updateBadges(){
         BottomNavigationView navView = binding.navView;
-        Collection<String> scannedBarcodes = barcodeStorage.getScannedBarcodes();
+        Collection<String> scannedBarcodes = barcodeStorage.getCurrentScan().getBarCodes();
 
         BadgeDrawable scanBadge = navView.getOrCreateBadge(R.id.navigation_scanned_barcodes_list);
         scanBadge.setNumber(scannedBarcodes.size());
