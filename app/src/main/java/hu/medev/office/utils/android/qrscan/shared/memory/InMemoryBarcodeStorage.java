@@ -1,4 +1,4 @@
-package hu.medev.office.utils.android.qrscan.shared;
+package hu.medev.office.utils.android.qrscan.shared.memory;
 
 import android.os.Build;
 
@@ -10,6 +10,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import hu.medev.office.utils.android.qrscan.shared.BarcodeScanListener;
+import hu.medev.office.utils.android.qrscan.shared.BarcodeStorage;
 import hu.medev.office.utils.android.qrscan.shared.data.BarcodeScan;
 
 public class InMemoryBarcodeStorage implements BarcodeStorage {
@@ -20,7 +22,7 @@ public class InMemoryBarcodeStorage implements BarcodeStorage {
     private int counter;
 
 
-    protected InMemoryBarcodeStorage() {
+    public InMemoryBarcodeStorage() {
         this.storage = new ArrayList<>();
         this.listeners = new ArrayList<>();
         this.counter = 0;
