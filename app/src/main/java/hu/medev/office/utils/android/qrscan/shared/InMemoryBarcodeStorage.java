@@ -14,19 +14,11 @@ import hu.medev.office.utils.android.qrscan.shared.data.BarcodeScan;
 
 public class InMemoryBarcodeStorage implements BarcodeStorage {
 
-    private static InMemoryBarcodeStorage instance;
-
     private final Collection<BarcodeScan> storage;
     private final List<BarcodeScanListener> listeners;
     private BarcodeScan selectedScan;
     private int counter;
 
-    public static BarcodeStorage getInstance(){
-        if(instance == null){
-            return new InMemoryBarcodeStorage();
-        }
-        return instance;
-    }
 
     protected InMemoryBarcodeStorage() {
         this.storage = new ArrayList<>();

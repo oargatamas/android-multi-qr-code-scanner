@@ -19,6 +19,7 @@ import com.google.android.material.snackbar.Snackbar;
 import hu.medev.office.utils.android.databinding.FragmentScanListBinding;
 import hu.medev.office.utils.android.qrscan.ScannerActivity;
 import hu.medev.office.utils.android.qrscan.shared.BarcodeStorage;
+import hu.medev.office.utils.android.qrscan.shared.StorageFactory;
 import hu.medev.office.utils.android.qrscan.ui.utils.SwipeToDeleteCallback;
 
 public class ScanListFragment extends Fragment {
@@ -36,7 +37,7 @@ public class ScanListFragment extends Fragment {
         rootView = binding.getRoot();
 
         ScannerActivity activity = (ScannerActivity) requireActivity();
-        BarcodeStorage barcodeStorage = activity.getBarcodeStorage();
+        BarcodeStorage barcodeStorage = StorageFactory.getBarCodeStorage();
 
         scanList = binding.rvBarCodeList;
 

@@ -17,17 +17,13 @@ import hu.medev.office.utils.android.R;
 import hu.medev.office.utils.android.databinding.ActivityScannerBinding;
 import hu.medev.office.utils.android.qrscan.shared.BarcodeScanListener;
 import hu.medev.office.utils.android.qrscan.shared.BarcodeStorage;
-import hu.medev.office.utils.android.qrscan.shared.InMemoryBarcodeStorage;
+import hu.medev.office.utils.android.qrscan.shared.StorageFactory;
 import hu.medev.office.utils.android.qrscan.shared.data.BarcodeScan;
 
 public class  ScannerActivity extends AppCompatActivity {
 
     private ActivityScannerBinding binding;
     private BarcodeStorage barcodeStorage;
-
-    public BarcodeStorage getBarcodeStorage() {
-        return barcodeStorage;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +43,7 @@ public class  ScannerActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        barcodeStorage = InMemoryBarcodeStorage.getInstance();
+        barcodeStorage = StorageFactory.getBarCodeStorage();
         barcodeStorage.addScanListener(getBarcodeListener());
     }
 
