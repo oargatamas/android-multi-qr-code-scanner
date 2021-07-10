@@ -1,4 +1,4 @@
-package hu.medev.office.utils.android.qrscan.ui.scanlist;
+package hu.medev.office.utils.android.qrscan.ui.utils;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -28,7 +28,7 @@ public abstract class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallba
     private final int intrinsicHeight;
 
 
-    SwipeToDeleteCallback(Context context) {
+    public SwipeToDeleteCallback(Context context) {
         super(0,ItemTouchHelper.LEFT);
         mContext = context;
         mBackground = new ColorDrawable();
