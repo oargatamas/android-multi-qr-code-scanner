@@ -42,7 +42,7 @@ public class ScanListFragment extends Fragment {
         scanList = binding.rvBarCodeList;
 
         scanList.setLayoutManager(new LinearLayoutManager(activity));
-        adapter = new ScanListAdapter(barcodeStorage.getScannedBarcodes());
+        adapter = new ScanListAdapter(barcodeStorage);
         scanList.setAdapter(adapter);
         ItemTouchHelper swipeToDelete = new ItemTouchHelper(initSwipeCallback());
         swipeToDelete.attachToRecyclerView(scanList);

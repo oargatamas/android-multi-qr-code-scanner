@@ -10,18 +10,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import hu.medev.office.utils.android.R;
+import hu.medev.office.utils.android.qrscan.shared.BarcodeStorage;
 
 public class ScanListAdapter extends RecyclerView.Adapter<ScanListAdapter.ViewHolder> {
 
-
+    BarcodeStorage barcodeStorage;
     List<String> items;
 
-    public ScanListAdapter(Collection<String> items) {
-        this.items = new ArrayList<>(items);
+    public ScanListAdapter(BarcodeStorage barcodeStorage) {
+        this.items = new ArrayList<>(barcodeStorage.getScannedBarcodes());
+        this.barcodeStorage = barcodeStorage;
     }
 
 
@@ -50,12 +51,15 @@ public class ScanListAdapter extends RecyclerView.Adapter<ScanListAdapter.ViewHo
     }
 
     public void removeItem(int position) {
+        String barcode = items.get(position);
         items.remove(position);
+        barcodeStorage.removeBarcode(barcode);
         notifyItemRemoved(position);
     }
 
     public void restoreItem(String item, int position) {
         items.add(position, item);
+        barcodeStorage.addBarcode(item);
         notifyItemInserted(position);
     }
 
