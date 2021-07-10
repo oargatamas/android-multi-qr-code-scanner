@@ -60,7 +60,7 @@ public class ScanListFragment extends Fragment {
         return new SwipeToDeleteCallback(requireContext()) {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                final int position = viewHolder.getBindingAdapterPosition();
+                final int position = viewHolder.getAdapterPosition();
                 final String item = adapter.getItems().get(position);
 
                 adapter.removeItem(position);
