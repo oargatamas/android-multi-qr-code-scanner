@@ -6,9 +6,10 @@ import androidx.annotation.RequiresApi;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import hu.medev.office.utils.android.qrscan.shared.BarcodeScanListener;
 import hu.medev.office.utils.android.qrscan.shared.BarcodeStorage;
@@ -16,14 +17,14 @@ import hu.medev.office.utils.android.qrscan.shared.data.BarcodeScan;
 
 public class InMemoryBarcodeStorage implements BarcodeStorage {
 
-    private final Collection<BarcodeScan> storage;
+    private final Map<String, BarcodeScan> storage;
     private final List<BarcodeScanListener> listeners;
     private BarcodeScan selectedScan;
     private int counter;
 
 
     public InMemoryBarcodeStorage() {
-        this.storage = new ArrayList<>();
+        this.storage = new HashMap<>();
         this.listeners = new ArrayList<>();
         this.counter = 0;
     }
@@ -45,7 +46,7 @@ public class InMemoryBarcodeStorage implements BarcodeStorage {
 
         counter++;
 
-        storage.add(scan);
+        storage.put(scan.getId(), scan);
         selectedScan = scan;
 
         return scan;
@@ -54,10 +55,10 @@ public class InMemoryBarcodeStorage implements BarcodeStorage {
 
     @Override
     public BarcodeScan getScan(String identifier) {
-        for (BarcodeScan item: storage) {
-            if(item.getId().equals(identifier)){
-                selectedScan = item;
-                return item;
+        for (Map.Entry<String, BarcodeScan> item : storage.entrySet()) {
+            if (item.getKey().equals(identifier)) {
+                selectedScan = item.getValue();
+                return item.getValue();
             }
         }
         selectedScan = null;
@@ -87,7 +88,7 @@ public class InMemoryBarcodeStorage implements BarcodeStorage {
 
     @Override
     public void removeBarcode(String barCode) {
-        removeBarcode(getCurrentScan(),barCode);
+        removeBarcode(getCurrentScan(), barCode);
     }
 
     @Override
