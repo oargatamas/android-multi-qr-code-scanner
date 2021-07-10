@@ -29,6 +29,7 @@ public class HomeFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private RecyclerView scanList;
     private PreviousScansAdapter adapter;
+    private View emptyListView;
     private View rootView;
 
     @Override
@@ -40,6 +41,8 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         rootView = binding.getRoot();
 
+        emptyListView = binding.NoItemView;
+
         activity = (MainActivity) requireActivity();
         sharedPreferences = activity.getSharedPreferences("", Context.MODE_PRIVATE); //Todo implement correctly
 
@@ -47,6 +50,7 @@ public class HomeFragment extends Fragment {
 
         scanList.setLayoutManager(new LinearLayoutManager(activity));
         adapter = new PreviousScansAdapter(sharedPreferences);
+        adapter.registerAdapterDataObserver(getEmptyObserver());
         scanList.setAdapter(adapter);
         ItemTouchHelper swipeToDelete = new ItemTouchHelper(initSwipeCallback());
         swipeToDelete.attachToRecyclerView(scanList);
@@ -89,6 +93,19 @@ public class HomeFragment extends Fragment {
 
                 snackbar.setActionTextColor(Color.YELLOW);
                 snackbar.show();
+            }
+        };
+    }
+
+    private RecyclerView.AdapterDataObserver getEmptyObserver(){
+        return new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                if( adapter.items.size() == 0 ){
+                    emptyListView.setVisibility(View.VISIBLE);
+                }else{
+                    emptyListView.setVisibility(View.GONE);
+                }
             }
         };
     }
