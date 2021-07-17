@@ -58,7 +58,7 @@ public class InMemoryBarcodeStorage implements BarcodeStorage {
         for (Map.Entry<String, BarcodeScan> item : storage.entrySet()) {
             if (item.getKey().equals(identifier)) {
                 selectedScan = item.getValue();
-                return item.getValue();
+                return selectedScan;
             }
         }
         selectedScan = null;
