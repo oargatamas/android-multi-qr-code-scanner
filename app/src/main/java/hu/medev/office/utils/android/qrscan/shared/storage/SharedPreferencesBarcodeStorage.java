@@ -26,14 +26,15 @@ public class SharedPreferencesBarcodeStorage extends BaseBarcodeStorage implemen
 
 
     private static final String SHARED_PREF_NAME = "Medev-QrScans";
+    private static final String COUNTER = "ScanCounter";
     private final SharedPreferences storage;
     private final Gson serializer;
 
     public SharedPreferencesBarcodeStorage() {
         super();
         this.serializer = getSerializer();
-        this.counter = 1;
         this.storage = ContextHolder.getContext().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        this.counter = storage.getInt(COUNTER,1);
     }
 
 
@@ -78,6 +79,7 @@ public class SharedPreferencesBarcodeStorage extends BaseBarcodeStorage implemen
 
     private void saveScan(BarcodeScan scan) {
         storage.edit()
+                .putInt(COUNTER, counter)
                 .putString(scan.getId(), serializer.toJson(scan))
                 .apply();
     }

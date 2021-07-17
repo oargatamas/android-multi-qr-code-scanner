@@ -34,7 +34,6 @@ public abstract class BaseBarcodeStorage implements BarcodeStorage {
 
         scan.setId("Scan #" + counter);
         scan.setScanDate(LocalDateTime.now());
-        scan.setNumberOfItems(0);
         scan.setBarCodes(new HashSet<>());
 
         counter++;
