@@ -46,8 +46,13 @@ public class  ScannerActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         barcodeStorage = StorageFactory.getBarCodeStorage();
-        barcodeStorage.getNewScan();
         barcodeStorage.addScanListener(getBarcodeListener());
+        if(getIntent().hasExtra(getString(R.string.intent_scan_id))){
+            String scanId = getIntent().getStringExtra(getString(R.string.intent_scan_id));
+            barcodeStorage.getScan(scanId);
+        }else{
+            barcodeStorage.getNewScan();
+        }
     }
 
     private BarcodeScanListener getBarcodeListener(){

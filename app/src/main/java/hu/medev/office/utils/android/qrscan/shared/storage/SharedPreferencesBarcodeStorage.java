@@ -49,7 +49,8 @@ public class SharedPreferencesBarcodeStorage extends BaseBarcodeStorage {
     @Override
     public BarcodeScan getScan(String scanId) {
         if (storage.contains(scanId)) {
-            return serializer.fromJson(storage.getString(scanId, ""), BarcodeScan.class);
+            selectedScan = serializer.fromJson(storage.getString(scanId, ""), BarcodeScan.class);
+            return selectedScan;
         }
         return null;
     }

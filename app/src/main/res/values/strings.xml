@@ -16,4 +16,5 @@
     <string name="title_scanned_barcodes_list">Scanned List</string>
     <string name="title_camera_scanner">Scan with Camera</string>
     <string name="app_datetime_format">yyyy-MM-dd HH:mm</string>
+    <string name="intent_scan_id">BarcodeScanId</string>
 </resources>

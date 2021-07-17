@@ -17,11 +17,13 @@ import hu.medev.office.utils.android.R;
 import hu.medev.office.utils.android.qrscan.helper.ContextHolder;
 import hu.medev.office.utils.android.qrscan.shared.BarcodeStorage;
 import hu.medev.office.utils.android.qrscan.shared.data.BarcodeScan;
+import hu.medev.office.utils.android.qrscan.ui.utils.RecyclerViewItemClickListener;
 
 public class PreviousScansAdapter extends RecyclerView.Adapter<PreviousScansAdapter.ViewHolder> {
 
     BarcodeStorage barcodeStorage;
     List<BarcodeScan> items;
+    RecyclerViewItemClickListener<BarcodeScan> itemClickListener;
 
     public PreviousScansAdapter(BarcodeStorage barcodeStorage) {
         this.barcodeStorage = barcodeStorage;
@@ -31,6 +33,10 @@ public class PreviousScansAdapter extends RecyclerView.Adapter<PreviousScansAdap
 
     public List<BarcodeScan> getItems() {
         return items;
+    }
+
+    public void setItemClickListener(RecyclerViewItemClickListener<BarcodeScan> itemClickListener) {
+        this.itemClickListener = itemClickListener;
     }
 
     @NonNull
@@ -88,6 +94,11 @@ public class PreviousScansAdapter extends RecyclerView.Adapter<PreviousScansAdap
             scanTitle = itemView.findViewById(R.id.tvTitle);
             noItems = itemView.findViewById(R.id.tvNoItems);
             scanDate = itemView.findViewById(R.id.tvScanDate);
+
+            itemView.setOnClickListener(v -> {
+                int position = getAbsoluteAdapterPosition();
+                itemClickListener.onItemClicked(items.get(position),position);
+            });
         }
     }
 }
