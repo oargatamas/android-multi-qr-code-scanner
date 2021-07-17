@@ -15,6 +15,7 @@ import java.util.Collection;
 
 import hu.medev.office.utils.android.R;
 import hu.medev.office.utils.android.databinding.ActivityScannerBinding;
+import hu.medev.office.utils.android.qrscan.helper.ContextHolder;
 import hu.medev.office.utils.android.qrscan.shared.BarcodeScanListener;
 import hu.medev.office.utils.android.qrscan.shared.BarcodeStorage;
 import hu.medev.office.utils.android.qrscan.shared.StorageFactory;
@@ -28,6 +29,7 @@ public class  ScannerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ContextHolder.initial(getApplicationContext());
 
         binding = ActivityScannerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
