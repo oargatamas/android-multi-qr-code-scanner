@@ -15,13 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 
 import hu.medev.office.utils.android.databinding.FragmentHomeBinding;
+import hu.medev.office.utils.android.qrscan.shared.BarcodeStorage;
 import hu.medev.office.utils.android.qrscan.shared.StorageFactory;
 import hu.medev.office.utils.android.qrscan.shared.data.BarcodeScan;
 import hu.medev.office.utils.android.qrscan.ui.utils.SwipeToDeleteCallback;
 
 public class HomeFragment extends Fragment {
 
-
+    private BarcodeStorage barcodeStorage;
     private FragmentHomeBinding binding;
     private RecyclerView scanList;
     private PreviousScansAdapter adapter;
@@ -33,17 +34,18 @@ public class HomeFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
+        barcodeStorage = StorageFactory.getBarCodeStorage();
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         rootView = binding.getRoot();
-
         emptyListView = binding.NoItemView;
+
 
 
         scanList = binding.rvBarCodeList;
 
         scanList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new PreviousScansAdapter(StorageFactory.getBarCodeStorage());
+        adapter = new PreviousScansAdapter(barcodeStorage);
         adapter.registerAdapterDataObserver(getEmptyObserver());
         scanList.setAdapter(adapter);
         ItemTouchHelper swipeToDelete = new ItemTouchHelper(initSwipeCallback());
@@ -51,6 +53,13 @@ public class HomeFragment extends Fragment {
 
         return rootView;
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.refresh();
+        checkListSize();
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -91,15 +100,19 @@ public class HomeFragment extends Fragment {
         };
     }
 
+    private void checkListSize(){
+        if( adapter.getItems().size() == 0 ){
+            emptyListView.setVisibility(View.VISIBLE);
+        }else{
+            emptyListView.setVisibility(View.GONE);
+        }
+    }
+
     private RecyclerView.AdapterDataObserver getEmptyObserver(){
         return new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
-                if( adapter.items.size() == 0 ){
-                    emptyListView.setVisibility(View.VISIBLE);
-                }else{
-                    emptyListView.setVisibility(View.GONE);
-                }
+                checkListSize();
             }
         };
     }

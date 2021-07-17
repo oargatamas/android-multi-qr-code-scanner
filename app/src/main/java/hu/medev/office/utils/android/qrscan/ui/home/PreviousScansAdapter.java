@@ -31,7 +31,6 @@ public class PreviousScansAdapter extends RecyclerView.Adapter<PreviousScansAdap
         return items;
     }
 
-
     @NonNull
     @Override
     public PreviousScansAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -64,6 +63,11 @@ public class PreviousScansAdapter extends RecyclerView.Adapter<PreviousScansAdap
         items.add(position, item);
         barcodeStorage.addScan(item);
         notifyItemInserted(position);
+    }
+
+    public void refresh() {
+        items = barcodeStorage.getAllScans();
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
