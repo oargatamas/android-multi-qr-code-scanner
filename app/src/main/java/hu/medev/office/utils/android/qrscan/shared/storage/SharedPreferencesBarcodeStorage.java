@@ -14,12 +14,12 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
+import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
-import hu.medev.office.utils.android.R;
 import hu.medev.office.utils.android.qrscan.helper.ContextHolder;
 import hu.medev.office.utils.android.qrscan.shared.data.BarcodeScan;
 
@@ -109,15 +109,15 @@ public class SharedPreferencesBarcodeStorage extends BaseBarcodeStorage {
                 .registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
                     @Override
                     public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext jsonContext) throws JsonParseException {
-
-                        return LocalDateTime.parse(json.getAsString(), DateTimeFormatter.ofPattern(ContextHolder.getContext().getString(R.string.app_datetime_format)));
+                        return LocalDateTime.ofInstant(Instant.ofEpochMilli(json.getAsLong()),
+                                TimeZone.getDefault().toZoneId());
                     }
 
                 })
                 .registerTypeAdapter(LocalDateTime.class, new JsonSerializer<LocalDateTime>() {
                     @Override
                     public JsonElement serialize(LocalDateTime src, Type typeOfSrc, JsonSerializationContext jsonContext) {
-                        return new JsonPrimitive(src.format(DateTimeFormatter.ofPattern(ContextHolder.getContext().getString(R.string.app_datetime_format))));
+                        return new JsonPrimitive(src.atZone(TimeZone.getDefault().toZoneId()).toInstant().toEpochMilli());
                     }
                 })
                 .create();
