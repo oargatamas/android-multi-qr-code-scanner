@@ -46,6 +46,7 @@ public abstract class BaseBarcodeStorage implements BarcodeStorage {
 
     @Override
     public void addBarcode(BarcodeScan toScan, String barCode) {
+        toScan.setScanDate(LocalDateTime.now());
         for (BarcodeScanListener listener : listeners) {
             listener.onBarcodeScanned(toScan, barCode);
         }
@@ -53,6 +54,7 @@ public abstract class BaseBarcodeStorage implements BarcodeStorage {
 
     @Override
     public void removeBarcode(BarcodeScan fromScan, String barCode) {
+        fromScan.setScanDate(LocalDateTime.now());
         for (BarcodeScanListener listener : listeners) {
             listener.onBarcodeRemoved(fromScan, barCode);
         }
