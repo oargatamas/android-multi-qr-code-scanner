@@ -14,6 +14,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import hu.medev.office.utils.android.R;
 import hu.medev.office.utils.android.databinding.ActivityMainBinding;
+import hu.medev.office.utils.android.qrscan.helper.ContextHolder;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ContextHolder.initial(getApplicationContext());
         this.activity = this;
 
         hu.medev.office.utils.android.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
