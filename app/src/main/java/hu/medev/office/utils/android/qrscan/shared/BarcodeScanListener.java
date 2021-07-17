@@ -1,8 +1,10 @@
 package hu.medev.office.utils.android.qrscan.shared;
 
+import hu.medev.office.utils.android.qrscan.shared.data.BarcodeScan;
+
 public interface BarcodeScanListener {
 
-    void onBarcodeScanned(String barcodeValue);
+    void onBarcodeScanned(BarcodeScan scan, String value);
 
-    void onBarcodeRemoved(String barcodeValue);
+    void onBarcodeRemoved(BarcodeScan scan, String barcodeValue);
 }
