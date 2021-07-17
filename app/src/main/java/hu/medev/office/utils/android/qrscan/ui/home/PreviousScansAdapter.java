@@ -9,7 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import hu.medev.office.utils.android.R;
 import hu.medev.office.utils.android.qrscan.helper.ContextHolder;
@@ -23,7 +25,7 @@ public class PreviousScansAdapter extends RecyclerView.Adapter<PreviousScansAdap
 
     public PreviousScansAdapter(BarcodeStorage barcodeStorage) {
         this.barcodeStorage = barcodeStorage;
-        this.items = barcodeStorage.getAllScans();
+        this.items = getScansOrdered();
     }
 
 
@@ -66,8 +68,14 @@ public class PreviousScansAdapter extends RecyclerView.Adapter<PreviousScansAdap
     }
 
     public void refresh() {
-        items = barcodeStorage.getAllScans();
+        items = getScansOrdered();
         notifyDataSetChanged();
+    }
+
+    private List<BarcodeScan> getScansOrdered(){
+        return barcodeStorage.getAllScans().stream()
+                .sorted(Comparator.comparing(BarcodeScan::getScanDate).reversed())
+                .collect(Collectors.toList());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
