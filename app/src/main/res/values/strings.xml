@@ -2,7 +2,7 @@
     <string name="app_name">android-multi-qr-code-scanner</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
+    <string name="first_fragment_label">Scanned QR codes</string>
     <string name="second_fragment_label">QR Code Scanner</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
@@ -17,4 +17,10 @@
     <string name="title_camera_scanner">Scan with Camera</string>
     <string name="app_datetime_format">yyyy-MM-dd HH:mm</string>
     <string name="intent_scan_id">BarcodeScanId</string>
+    <string name="start_scanning_by_touching_the">Start scanning by touching the</string>
+    <string name="at_the_screen_bottom">At the screen bottom</string>
+    <string name="no_previous_scans_available">No previous scans available</string>
+    <string name="floating_action_button_for_starting_new_scan">Floating Action button for starting new scan</string>
+    <string name="no_items">No. Items</string>
+    <string name="floating_action_button_for_sending_scanned_barcodes_to_3rd_part_application">Floating action button for sending scanned barcodes to 3rd part application</string>
 </resources>
