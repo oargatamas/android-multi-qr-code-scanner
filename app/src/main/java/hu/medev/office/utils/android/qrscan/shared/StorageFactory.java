@@ -8,8 +8,9 @@ public class StorageFactory {
 
     public static BarcodeStorage getBarCodeStorage(){
         if(barcodeStorage == null){
-            return new InMemoryBarcodeStorage();
+            barcodeStorage =  new InMemoryBarcodeStorage();
         }
         return barcodeStorage;
     }
 }
+ 
