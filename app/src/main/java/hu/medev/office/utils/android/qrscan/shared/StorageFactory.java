@@ -10,6 +10,7 @@ public class StorageFactory {
     public static BarcodeStorage getBarCodeStorage(){
         if(barcodeStorage == null){
             barcodeStorage =  new SharedPreferencesBarcodeStorage(ContextHolder.getContext());
+            //barcodeStorage =  new InMemoryBarcodeStorage();
         }
         return barcodeStorage;
     }
