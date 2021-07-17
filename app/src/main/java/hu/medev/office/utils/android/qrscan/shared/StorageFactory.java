@@ -1,6 +1,6 @@
 package hu.medev.office.utils.android.qrscan.shared;
 
-import hu.medev.office.utils.android.qrscan.shared.memory.InMemoryBarcodeStorage;
+import hu.medev.office.utils.android.qrscan.shared.storage.InMemoryBarcodeStorage;
 
 public class StorageFactory {
 

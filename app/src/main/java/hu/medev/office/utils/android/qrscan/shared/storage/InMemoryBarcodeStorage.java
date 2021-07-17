@@ -1,53 +1,25 @@
-package hu.medev.office.utils.android.qrscan.shared.memory;
+package hu.medev.office.utils.android.qrscan.shared.storage;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
 import hu.medev.office.utils.android.qrscan.shared.BarcodeScanListener;
-import hu.medev.office.utils.android.qrscan.shared.BarcodeStorage;
 import hu.medev.office.utils.android.qrscan.shared.data.BarcodeScan;
 
-public class InMemoryBarcodeStorage implements BarcodeStorage {
+public class InMemoryBarcodeStorage extends BaseBarcodeStorage {
 
     private final Map<String, BarcodeScan> storage;
-    private final List<BarcodeScanListener> listeners;
-    private BarcodeScan selectedScan;
-    private int counter;
-
 
     public InMemoryBarcodeStorage() {
+        super();
         this.storage = new HashMap<>();
-        this.listeners = new ArrayList<>();
-        this.counter = 0;
+        this.counter = 1;
     }
 
-    @Override
-    public BarcodeScan getCurrentScan() {
-        return selectedScan;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public BarcodeScan getNewScan() {
-        BarcodeScan scan = new BarcodeScan();
-
-        scan.setId("Scan #" + counter);
-        scan.setScanDate(LocalDateTime.now());
-        scan.setNumberOfItems(0);
-        scan.setBarCodes(new HashSet<>());
-
-        counter++;
-
+        BarcodeScan scan = super.getNewScan();
         storage.put(scan.getId(), scan);
-        selectedScan = scan;
 
         return scan;
     }
@@ -89,15 +61,5 @@ public class InMemoryBarcodeStorage implements BarcodeStorage {
     @Override
     public void removeBarcode(String barCode) {
         removeBarcode(getCurrentScan(), barCode);
-    }
-
-    @Override
-    public void addScanListener(BarcodeScanListener listener) {
-        listeners.add(listener);
-    }
-
-    @Override
-    public void removeScanListener(BarcodeScanListener listener) {
-        listeners.remove(listener);
     }
 }
