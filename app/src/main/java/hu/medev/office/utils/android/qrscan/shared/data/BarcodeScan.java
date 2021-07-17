@@ -5,7 +5,6 @@ import java.util.Set;
 
 public class BarcodeScan {
     private String id;
-    private int numberOfItems;
     private LocalDateTime scanDate;
     private Set<String> barCodes;
 
@@ -16,14 +15,6 @@ public class BarcodeScan {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public int getNumberOfItems() {
-        return numberOfItems;
-    }
-
-    public void setNumberOfItems(int numberOfItems) {
-        this.numberOfItems = numberOfItems;
     }
 
     public LocalDateTime getScanDate() {
