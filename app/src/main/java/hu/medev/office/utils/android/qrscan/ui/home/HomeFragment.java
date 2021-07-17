@@ -100,11 +100,13 @@ public class HomeFragment extends Fragment {
 
                         adapter.restoreItem(item, position);
                         scanList.scrollToPosition(position);
+                        adapter.refresh();
                     }
                 });
 
                 snackbar.setActionTextColor(Color.YELLOW);
                 snackbar.show();
+                adapter.refresh();
             }
         };
     }
