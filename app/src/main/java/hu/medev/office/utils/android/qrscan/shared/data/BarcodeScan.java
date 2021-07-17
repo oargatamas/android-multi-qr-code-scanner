@@ -1,12 +1,13 @@
 package hu.medev.office.utils.android.qrscan.shared.data;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 public class BarcodeScan {
     private String id;
     private LocalDateTime scanDate;
-    private Set<String> barCodes;
+    private Set<String> barCodes = new HashSet<>();
 
 
     public String getId() {

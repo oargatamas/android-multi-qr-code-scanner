@@ -16,13 +16,14 @@ import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import hu.medev.office.utils.android.R;
 import hu.medev.office.utils.android.qrscan.helper.ContextHolder;
-import hu.medev.office.utils.android.qrscan.shared.BarcodeStorage;
 import hu.medev.office.utils.android.qrscan.shared.data.BarcodeScan;
 
-public class SharedPreferencesBarcodeStorage extends BaseBarcodeStorage implements BarcodeStorage {
+public class SharedPreferencesBarcodeStorage extends BaseBarcodeStorage {
 
 
     private static final String SHARED_PREF_NAME = "Medev-QrScans";
@@ -75,6 +76,25 @@ public class SharedPreferencesBarcodeStorage extends BaseBarcodeStorage implemen
     @Override
     public void removeBarcode(String barCode) {
         removeBarcode(getCurrentScan(), barCode);
+    }
+
+    @Override
+    public List<BarcodeScan> getAllScans() {
+        return storage.getAll().entrySet().stream()
+                .filter(entry -> !entry.getKey().equals(COUNTER))
+                .map(entry -> entry.getValue().toString())
+                .map(json -> serializer.fromJson(json, BarcodeScan.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void removeScan(BarcodeScan scan) {
+        storage.edit().remove(scan.getId()).apply();
+    }
+
+    @Override
+    public void addScan(BarcodeScan scan) {
+        saveScan(scan);
     }
 
     private void saveScan(BarcodeScan scan) {

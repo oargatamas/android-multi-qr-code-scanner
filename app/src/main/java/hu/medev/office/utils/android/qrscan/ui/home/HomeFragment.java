@@ -1,7 +1,5 @@
 package hu.medev.office.utils.android.qrscan.ui.home;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 
 import hu.medev.office.utils.android.databinding.FragmentHomeBinding;
-import hu.medev.office.utils.android.qrscan.MainActivity;
+import hu.medev.office.utils.android.qrscan.shared.StorageFactory;
 import hu.medev.office.utils.android.qrscan.shared.data.BarcodeScan;
 import hu.medev.office.utils.android.qrscan.ui.utils.SwipeToDeleteCallback;
 
@@ -25,8 +23,6 @@ public class HomeFragment extends Fragment {
 
 
     private FragmentHomeBinding binding;
-    private MainActivity activity;
-    private SharedPreferences sharedPreferences;
     private RecyclerView scanList;
     private PreviousScansAdapter adapter;
     private View emptyListView;
@@ -43,13 +39,11 @@ public class HomeFragment extends Fragment {
 
         emptyListView = binding.NoItemView;
 
-        activity = (MainActivity) requireActivity();
-        sharedPreferences = activity.getSharedPreferences("", Context.MODE_PRIVATE); //Todo implement correctly
 
         scanList = binding.rvBarCodeList;
 
-        scanList.setLayoutManager(new LinearLayoutManager(activity));
-        adapter = new PreviousScansAdapter(sharedPreferences);
+        scanList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new PreviousScansAdapter(StorageFactory.getBarCodeStorage());
         adapter.registerAdapterDataObserver(getEmptyObserver());
         scanList.setAdapter(adapter);
         ItemTouchHelper swipeToDelete = new ItemTouchHelper(initSwipeCallback());
