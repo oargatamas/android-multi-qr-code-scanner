@@ -17,20 +17,23 @@ import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import hu.medev.office.utils.android.R;
+import hu.medev.office.utils.android.qrscan.helper.ContextHolder;
 import hu.medev.office.utils.android.qrscan.shared.BarcodeStorage;
 import hu.medev.office.utils.android.qrscan.shared.data.BarcodeScan;
 
 public class SharedPreferencesBarcodeStorage extends BaseBarcodeStorage implements BarcodeStorage {
 
+
     private static final String SHARED_PREF_NAME = "Medev-QrScans";
     private final SharedPreferences storage;
     private final Gson serializer;
 
-    public SharedPreferencesBarcodeStorage(Context context) {
+    public SharedPreferencesBarcodeStorage() {
         super();
         this.serializer = getSerializer();
         this.counter = 1;
-        this.storage = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        this.storage = ContextHolder.getContext().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
     }
 
 
@@ -83,16 +86,16 @@ public class SharedPreferencesBarcodeStorage extends BaseBarcodeStorage implemen
         return new GsonBuilder()
                 .registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
                     @Override
-                    public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                    public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext jsonContext) throws JsonParseException {
 
-                        return LocalDateTime.parse(json.getAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                        return LocalDateTime.parse(json.getAsString(), DateTimeFormatter.ofPattern(ContextHolder.getContext().getString(R.string.app_datetime_format)));
                     }
 
                 })
                 .registerTypeAdapter(LocalDateTime.class, new JsonSerializer<LocalDateTime>() {
                     @Override
-                    public JsonElement serialize(LocalDateTime src, Type typeOfSrc, JsonSerializationContext context) {
-                        return new JsonPrimitive(src.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+                    public JsonElement serialize(LocalDateTime src, Type typeOfSrc, JsonSerializationContext jsonContext) {
+                        return new JsonPrimitive(src.format(DateTimeFormatter.ofPattern(ContextHolder.getContext().getString(R.string.app_datetime_format))));
                     }
                 })
                 .create();
