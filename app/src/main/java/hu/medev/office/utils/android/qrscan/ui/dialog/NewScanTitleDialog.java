@@ -3,6 +3,7 @@ package hu.medev.office.utils.android.qrscan.ui.dialog;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -21,11 +22,12 @@ public class NewScanTitleDialog extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         BarcodeStorage barcodeStorage = StorageFactory.getBarCodeStorage();
 
-        EditText editText = new EditText(this.getContext());
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_new_scan_title, null);
+        EditText editText = dialogView.findViewById(R.id.etTitle);
 
         return new AlertDialog.Builder(requireContext())
                 .setMessage(getString(R.string.dialog_new_scan_title_message))
-                .setView(editText)
+                .setView(dialogView)
                 .setPositiveButton(getString(R.string.button_save), (dialog, which) -> {
                     BarcodeScan scan = barcodeStorage.getCurrentScan();
                     scan.setTitle(editText.getText().toString());
