@@ -58,7 +58,7 @@ public class ScannerActivity extends AppCompatActivity {
             barcodeStorage.getNewScan();
         }
 
-        getSupportActionBar().setTitle(barcodeStorage.getCurrentScan().getTitle());
+        updateView();
     }
 
     @Override
