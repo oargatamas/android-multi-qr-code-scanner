@@ -1,0 +1,2 @@
+rootProject.name = "android-multi-qr-code-scanner"
+include ':app'
