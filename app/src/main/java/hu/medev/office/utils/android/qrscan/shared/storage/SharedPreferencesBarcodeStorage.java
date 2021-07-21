@@ -91,11 +91,13 @@ public class SharedPreferencesBarcodeStorage extends BaseBarcodeStorage {
     @Override
     public void removeScan(BarcodeScan scan) {
         storage.edit().remove(scan.getId()).apply();
+        super.removeScan(scan);
     }
 
     @Override
     public void addScan(BarcodeScan scan) {
         saveScan(scan);
+        super.addScan(scan);
     }
 
     private void saveScan(BarcodeScan scan) {

@@ -63,6 +63,20 @@ public abstract class BaseBarcodeStorage implements BarcodeStorage {
     }
 
     @Override
+    public void removeScan(BarcodeScan scan) {
+        for (BarcodeScanListener listener : listeners) {
+            listener.onBarcodeScanChanged(scan);
+        }
+    }
+
+    @Override
+    public void addScan(BarcodeScan scan) {
+        for (BarcodeScanListener listener : listeners) {
+            listener.onBarcodeScanChanged(scan);
+        }
+    }
+
+    @Override
     public void addScanListener(BarcodeScanListener listener) {
         listeners.add(listener);
     }

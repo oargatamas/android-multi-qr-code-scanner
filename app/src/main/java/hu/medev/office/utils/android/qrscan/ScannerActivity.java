@@ -57,6 +57,8 @@ public class ScannerActivity extends AppCompatActivity {
         } else {
             barcodeStorage.getNewScan();
         }
+
+        getSupportActionBar().setTitle(barcodeStorage.getCurrentScan().getTitle());
     }
 
     @Override
@@ -81,19 +83,28 @@ public class ScannerActivity extends AppCompatActivity {
 
             @Override
             public void onBarcodeScanned(BarcodeScan scan, String value) {
-                updateBadges();
+                updateView();
             }
 
             @Override
             public void onBarcodeRemoved(BarcodeScan scan, String barcodeValue) {
-                updateBadges();
+                updateView();
+            }
+
+            @Override
+            public void onBarcodeScanChanged(BarcodeScan scan) {
+                updateView();
             }
         };
     }
 
-    private void updateBadges() {
+    private void updateView() {
+
         BottomNavigationView navView = binding.navView;
-        Collection<String> scannedBarcodes = barcodeStorage.getCurrentScan().getBarCodes();
+        BarcodeScan scan = barcodeStorage.getCurrentScan();
+        Collection<String> scannedBarcodes = scan.getBarCodes();
+
+        getSupportActionBar().setTitle(scan.getTitle());
 
         BadgeDrawable scanBadge = navView.getOrCreateBadge(R.id.navigation_scanned_barcodes_list);
         scanBadge.setNumber(scannedBarcodes.size());
