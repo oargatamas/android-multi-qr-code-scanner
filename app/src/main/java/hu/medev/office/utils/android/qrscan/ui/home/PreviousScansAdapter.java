@@ -49,7 +49,8 @@ public class PreviousScansAdapter extends RecyclerView.Adapter<PreviousScansAdap
     @Override
     public void onBindViewHolder(@NonNull PreviousScansAdapter.ViewHolder holder, int position) {
         BarcodeScan item = items.get(position);
-        holder.scanTitle.setText(item.getId());
+        holder.scanTitle.setText(item.getTitle());
+        holder.scanId.setText(item.getId());
         String datePattern = ContextHolder.getContext().getString(R.string.app_datetime_format);
         holder.scanDate.setText(item.getScanDate().format(DateTimeFormatter.ofPattern(datePattern)));
         holder.noItems.setText(String.valueOf(item.getBarCodes().size()));
@@ -85,12 +86,14 @@ public class PreviousScansAdapter extends RecyclerView.Adapter<PreviousScansAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView scanId;
         TextView scanTitle;
         TextView noItems;
         TextView scanDate;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            scanId = itemView.findViewById(R.id.tvId);
             scanTitle = itemView.findViewById(R.id.tvTitle);
             noItems = itemView.findViewById(R.id.tvNoItems);
             scanDate = itemView.findViewById(R.id.tvScanDate);

@@ -23,4 +23,8 @@
     <string name="floating_action_button_for_starting_new_scan">Floating Action button for starting new scan</string>
     <string name="no_items">No. Items</string>
     <string name="floating_action_button_for_sending_scanned_barcodes_to_3rd_part_application">Floating action button for sending scanned barcodes to 3rd part application</string>
+    <string name="change_scan_title">Change scan title</string>
+    <string name="dialog_new_scan_title_message">Type the new title of the Scan</string>
+    <string name="button_save">Save</string>
+    <string name="button_cancel">Cancel</string>
 </resources>

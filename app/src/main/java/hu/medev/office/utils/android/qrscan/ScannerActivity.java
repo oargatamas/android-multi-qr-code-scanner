@@ -1,6 +1,9 @@
 package hu.medev.office.utils.android.qrscan;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -20,8 +23,9 @@ import hu.medev.office.utils.android.qrscan.shared.BarcodeScanListener;
 import hu.medev.office.utils.android.qrscan.shared.BarcodeStorage;
 import hu.medev.office.utils.android.qrscan.shared.StorageFactory;
 import hu.medev.office.utils.android.qrscan.shared.data.BarcodeScan;
+import hu.medev.office.utils.android.qrscan.ui.dialog.NewScanTitleDialog;
 
-public class  ScannerActivity extends AppCompatActivity {
+public class ScannerActivity extends AppCompatActivity {
 
     private ActivityScannerBinding binding;
     private BarcodeStorage barcodeStorage;
@@ -47,15 +51,32 @@ public class  ScannerActivity extends AppCompatActivity {
 
         barcodeStorage = StorageFactory.getBarCodeStorage();
         barcodeStorage.addScanListener(getBarcodeListener());
-        if(getIntent().hasExtra(getString(R.string.intent_scan_id))){
+        if (getIntent().hasExtra(getString(R.string.intent_scan_id))) {
             String scanId = getIntent().getStringExtra(getString(R.string.intent_scan_id));
             barcodeStorage.getScan(scanId);
-        }else{
+        } else {
             barcodeStorage.getNewScan();
         }
     }
 
-    private BarcodeScanListener getBarcodeListener(){
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.scanner_activity_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        if (item.getItemId() == R.id.change_scan_title) {
+            new NewScanTitleDialog().show(getSupportFragmentManager(), "NEW_SCAN_TITLE_DIALOG");
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private BarcodeScanListener getBarcodeListener() {
         return new BarcodeScanListener() {
 
             @Override
@@ -70,7 +91,7 @@ public class  ScannerActivity extends AppCompatActivity {
         };
     }
 
-    private void updateBadges(){
+    private void updateBadges() {
         BottomNavigationView navView = binding.navView;
         Collection<String> scannedBarcodes = barcodeStorage.getCurrentScan().getBarCodes();
 
