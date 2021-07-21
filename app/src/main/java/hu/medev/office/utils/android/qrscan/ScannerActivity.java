@@ -105,6 +105,7 @@ public class ScannerActivity extends AppCompatActivity {
         Collection<String> scannedBarcodes = scan.getBarCodes();
 
         getSupportActionBar().setTitle(scan.getTitle());
+        getSupportActionBar().setSubtitle(scan.getId());
 
         BadgeDrawable scanBadge = navView.getOrCreateBadge(R.id.navigation_scanned_barcodes_list);
         scanBadge.setNumber(scannedBarcodes.size());
