@@ -1,5 +1,7 @@
 package hu.medev.office.utils.android.qrscan.shared;
 
+import java.util.List;
+
 import hu.medev.office.utils.android.qrscan.shared.data.BarcodeScan;
 
 public interface ScanStorage<Identifier> {
@@ -21,4 +23,10 @@ public interface ScanStorage<Identifier> {
     void addScanListener(BarcodeScanListener listener);
 
     void removeScanListener(BarcodeScanListener listener);
+
+    List<BarcodeScan> getAllScans();
+
+    void removeScan(BarcodeScan scan);
+
+    void addScan(BarcodeScan scan);
 }
