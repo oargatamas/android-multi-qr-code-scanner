@@ -7,4 +7,6 @@ public interface BarcodeScanListener {
     void onBarcodeScanned(BarcodeScan scan, String value);
 
     void onBarcodeRemoved(BarcodeScan scan, String barcodeValue);
+
+    void onBarcodeScanChanged(BarcodeScan scan);
 }

@@ -68,10 +68,12 @@ public class InMemoryBarcodeStorage extends BaseBarcodeStorage {
     @Override
     public void removeScan(BarcodeScan scan) {
         storage.remove(scan.getId());
+        super.removeScan(scan);
     }
 
     @Override
     public void addScan(BarcodeScan scan) {
         storage.put(scan.getId(),scan);
+        super.addScan(scan);
     }
 }

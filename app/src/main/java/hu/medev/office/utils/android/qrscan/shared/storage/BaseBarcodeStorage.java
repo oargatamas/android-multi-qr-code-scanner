@@ -32,7 +32,10 @@ public abstract class BaseBarcodeStorage implements BarcodeStorage {
     public BarcodeScan getNewScan() {
         BarcodeScan scan = new BarcodeScan();
 
-        scan.setId("Scan #" + counter);
+        String id = "Scan #" + counter;
+
+        scan.setId(id);
+        scan.setTitle(id);
         scan.setScanDate(LocalDateTime.now());
         scan.setBarCodes(new HashSet<>());
 
@@ -56,6 +59,20 @@ public abstract class BaseBarcodeStorage implements BarcodeStorage {
         fromScan.setScanDate(LocalDateTime.now());
         for (BarcodeScanListener listener : listeners) {
             listener.onBarcodeRemoved(fromScan, barCode);
+        }
+    }
+
+    @Override
+    public void removeScan(BarcodeScan scan) {
+        for (BarcodeScanListener listener : listeners) {
+            listener.onBarcodeScanChanged(scan);
+        }
+    }
+
+    @Override
+    public void addScan(BarcodeScan scan) {
+        for (BarcodeScanListener listener : listeners) {
+            listener.onBarcodeScanChanged(scan);
         }
     }
 
