@@ -1,6 +1,8 @@
 package hu.medev.office.utils.android.qrscan.shared.storage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import hu.medev.office.utils.android.qrscan.shared.data.BarcodeScan;
@@ -56,5 +58,20 @@ public class InMemoryBarcodeStorage extends BaseBarcodeStorage {
     @Override
     public void removeBarcode(String barCode) {
         removeBarcode(getCurrentScan(), barCode);
+    }
+
+    @Override
+    public List<BarcodeScan> getAllScans() {
+        return new ArrayList<>(storage.values());
+    }
+
+    @Override
+    public void removeScan(BarcodeScan scan) {
+        storage.remove(scan.getId());
+    }
+
+    @Override
+    public void addScan(BarcodeScan scan) {
+        storage.put(scan.getId(),scan);
     }
 }

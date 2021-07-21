@@ -19,9 +19,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="@dimen/margin_medium"
-            android:text="Scan #1"
             android:textAlignment="viewStart"
-            android:textSize="20dp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,9 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="@dimen/margin_medium"
-            android:text="2021.02.01 15:00"
             android:textAlignment="viewStart"
-            android:textSize="16dp"
+            android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -41,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="@dimen/margin_medium"
-            android:text="No. Items"
+            android:text="@string/no_items"
             android:textAlignment="viewStart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tvNoItems" />
@@ -51,10 +49,28 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="@dimen/margin_medium"
-            android:text="0"
             android:textAlignment="viewStart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ImageView
+            android:id="@+id/edit_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+            app:layout_constraintStart_toEndOf="@+id/tvTitle"
+            app:layout_constraintTop_toTopOf="@+id/tvTitle"
+            app:srcCompat="@drawable/ic_baseline_edit_24" />
+
+        <ImageView
+            android:id="@+id/delete_swipe_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvTitle"
+            app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
